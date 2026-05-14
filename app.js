@@ -94,13 +94,7 @@ const btnBase = {
 
 function Logo() {
   return (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <path d="M5 5.5 C5 4.67 5.67 4 6.5 4 H13 V23 H6.5 C5.67 23 5 22.33 5 21.5 Z"
-            stroke="#fff" strokeWidth="1.6" fill="none" strokeLinejoin="round"/>
-      <path d="M23 5.5 C23 4.67 22.33 4 21.5 4 H15 V23 H21.5 C22.33 23 23 22.33 23 21.5 Z"
-            stroke="#fff" strokeWidth="1.6" fill="none" strokeLinejoin="round"/>
-      <line x1="14" y1="4" x2="14" y2="23" stroke="#fff" strokeWidth="1.6" strokeLinecap="round"/>
-    </svg>
+    <img src="icon-192.png" width="32" height="32" style={{ borderRadius:7, display:"block" }} alt="" />
   );
 }
 
