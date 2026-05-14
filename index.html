@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
 <title>Koulu</title>
-<meta name="theme-color" content="#1e293b" />
+<meta name="theme-color" content="#0a0a0a" />
 <meta name="description" content="Koulun tehtävät ja tentit" />
 <link rel="manifest" href="manifest.json" />
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
@@ -12,12 +12,14 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Koulu" />
 <style>
-  html, body { margin:0; padding:0; background:#f8fafc; color:#1e293b; -webkit-tap-highlight-color:transparent; overscroll-behavior-x: none; }
+  html, body { margin:0; padding:0; background:#0a0a0a; color:#fff; -webkit-tap-highlight-color:transparent; overscroll-behavior-x: none; }
   body { font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); min-height: 100vh; }
-  input, textarea, select, button { font-family: inherit; -webkit-appearance: none; appearance: none; }
+  input, textarea, select, button { font-family: inherit; -webkit-appearance: none; appearance: none; color: #fff; }
+  input::placeholder, textarea::placeholder { color: #666; }
+  select option { background: #1a1a1a; color: #fff; }
   input[type="number"] { -moz-appearance: textfield; }
   input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   * { box-sizing: border-box; }

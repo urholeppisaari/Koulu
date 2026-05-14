@@ -6,8 +6,9 @@ const KEY_REC_DONE = "kt-rec-done-v1";
 const KEY_ARCHIVED = "kt-archived-v1";
 const KEY_EXAMS = "kt-exams-v1";
 
+const TABS = ["courses","all","recurring","other"];
 const DAYS = ["Maanantai","Tiistai","Keskiviikko","Torstai","Perjantai","Lauantai","Sunnuntai"];
-const COURSE_COLORS = ["#4f46e5","#0891b2","#059669","#d97706","#dc2626","#7c3aed","#db2777","#65a30d"];
+const COURSE_COLORS = ["#60a5fa","#22d3ee","#34d399","#fbbf24","#f87171","#a78bfa","#f472b6","#a3e635"];
 
 function courseColor(course, allCourses) {
   const i = allCourses.indexOf(course);
@@ -36,16 +37,16 @@ function getExamStatus(due) {
 
 const S_LABEL = { late:"Myöhässä", soon:"Pian", ok:"Ajoissa", done:"Valmis" };
 const S_STYLE = {
-  late: { background:"#fee2e2", color:"#b91c1c", border:"1px solid #fca5a5" },
-  soon: { background:"#fef3c7", color:"#92400e", border:"1px solid #fcd34d" },
-  ok:   { background:"#dcfce7", color:"#166534", border:"1px solid #86efac" },
-  done: { background:"#f1f5f9", color:"#94a3b8", border:"1px solid #e2e8f0" },
+  late: { background:"#3b1414", color:"#fca5a5", border:"1px solid #7f1d1d" },
+  soon: { background:"#3b2914", color:"#fcd34d", border:"1px solid #78350f" },
+  ok:   { background:"#14361f", color:"#86efac", border:"1px solid #166534" },
+  done: { background:"#1f1f1f", color:"#888", border:"1px solid #2a2a2a" },
 };
 const E_LABEL = { past:"Ohi", soon:"Pian", ok:"Tulossa" };
 const E_STYLE = {
-  past: { background:"#f1f5f9", color:"#94a3b8", border:"1px solid #e2e8f0" },
-  soon: { background:"#fef3c7", color:"#92400e", border:"1px solid #fcd34d" },
-  ok:   { background:"#ede9fe", color:"#5b21b6", border:"1px solid #c4b5fd" },
+  past: { background:"#1f1f1f", color:"#888", border:"1px solid #2a2a2a" },
+  soon: { background:"#3b2914", color:"#fcd34d", border:"1px solid #78350f" },
+  ok:   { background:"#2a1f47", color:"#c4b5fd", border:"1px solid #5b21b6" },
 };
 
 function fmt(due) {
@@ -84,7 +85,7 @@ function thisWeekOccurrence(dayIndex, time) {
 
 const inp = {
   fontSize:14, padding:"8px 10px", borderRadius:8,
-  border:"1px solid #e2e8f0", background:"#fff", color:"#111",
+  border:"1px solid #2a2a2a", background:"#1f1f1f", color:"#e5e5e5",
   width:"100%", boxSizing:"border-box", marginBottom:8, fontFamily:"inherit"
 };
 const btnBase = {
@@ -94,16 +95,11 @@ const btnBase = {
 function Logo() {
   return (
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <rect width="28" height="28" rx="7" fill="#1e293b"/>
-      <rect x="7" y="6" width="11" height="16" rx="1.5" fill="#fff"/>
-      <rect x="8.5" y="7.5" width="8" height="1.5" rx=".75" fill="#e2e8f0"/>
-      <rect x="8.5" y="10" width="8" height="1.5" rx=".75" fill="#e2e8f0"/>
-      <rect x="8.5" y="12.5" width="5" height="1.5" rx=".75" fill="#e2e8f0"/>
-      <rect x="7" y="20" width="11" height="1.5" rx=".75" fill="#94a3b8"/>
-      <line x1="18" y1="6" x2="18" y2="22" stroke="#e2e8f0" strokeWidth="1"/>
-      <rect x="17" y="14" width="5" height="7" rx="1" fill="#4f46e5"/>
-      <path d="M19.5 16 L19.5 19" stroke="#fff" strokeWidth="1.2" strokeLinecap="round"/>
-      <path d="M18 17.5 L21 17.5" stroke="#fff" strokeWidth="1.2" strokeLinecap="round"/>
+      <path d="M5 5.5 C5 4.67 5.67 4 6.5 4 H13 V23 H6.5 C5.67 23 5 22.33 5 21.5 Z"
+            stroke="#fff" strokeWidth="1.6" fill="none" strokeLinejoin="round"/>
+      <path d="M23 5.5 C23 4.67 22.33 4 21.5 4 H15 V23 H21.5 C22.33 23 23 22.33 23 21.5 Z"
+            stroke="#fff" strokeWidth="1.6" fill="none" strokeLinejoin="round"/>
+      <line x1="14" y1="4" x2="14" y2="23" stroke="#fff" strokeWidth="1.6" strokeLinecap="round"/>
     </svg>
   );
 }
@@ -122,7 +118,7 @@ function Badge(props) {
 
 function IconEdit(props) {
   return (
-    <button onClick={props.onClick} style={{ background:"none", border:"none", cursor:"pointer", padding:4, color:"#cbd5e1", display:"flex", alignItems:"center", flexShrink:0 }}>
+    <button onClick={props.onClick} style={{ background:"none", border:"none", cursor:"pointer", padding:4, color:"#666", display:"flex", alignItems:"center", flexShrink:0 }}>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -133,7 +129,7 @@ function IconEdit(props) {
 
 function IconDel(props) {
   return (
-    <button onClick={props.onClick} style={{ background:"none", border:"none", cursor:"pointer", padding:4, color:"#cbd5e1", display:"flex", alignItems:"center", flexShrink:0 }}>
+    <button onClick={props.onClick} style={{ background:"none", border:"none", cursor:"pointer", padding:4, color:"#666", display:"flex", alignItems:"center", flexShrink:0 }}>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="3 6 5 6 21 6"/>
         <path d="M19 6l-1 14H6L5 6"/>
@@ -147,7 +143,7 @@ function IconDel(props) {
 
 function RecurIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0 }}>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0 }}>
       <path d="M23 4v6h-6"/>
       <path d="M1 20v-6h6"/>
       <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
@@ -157,7 +153,7 @@ function RecurIcon() {
 
 function ChevronIcon(props) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0, marginLeft:2 }}>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0, marginLeft:2 }}>
       {props.up ? <polyline points="18 15 12 9 6 15"/> : <polyline points="6 9 12 15 18 9"/>}
     </svg>
   );
@@ -168,9 +164,10 @@ function Pill(props) {
     <button
       onClick={props.onClick}
       style={{
-        padding:"5px 13px", borderRadius:999, border:"none",
-        background: props.active ? "#1a56db" : "#f1f5f9",
-        color: props.active ? "#fff" : "#64748b",
+        padding:"5px 13px", borderRadius:999,
+        border: props.active ? "1px solid transparent" : "1px solid #2a2a2a",
+        background: props.active ? "#fff" : "#1a1a1a",
+        color: props.active ? "#000" : "#e5e5e5",
         fontWeight: props.active ? 500 : 400,
         cursor:"pointer", fontSize:13, fontFamily:"inherit"
       }}
@@ -182,7 +179,7 @@ function Pill(props) {
 
 function SectionLabel(props) {
   return (
-    <div style={{ fontSize:10, fontWeight:600, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".07em", margin:"10px 0 6px" }}>
+    <div style={{ fontSize:10, fontWeight:600, color:"#888", textTransform:"uppercase", letterSpacing:".07em", margin:"10px 0 6px" }}>
       {props.label}
     </div>
   );
@@ -192,7 +189,7 @@ function GroupLabel(props) {
   return (
     <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:8 }}>
       {props.color ? <span style={{ width:8, height:8, borderRadius:"50%", background:props.color, flexShrink:0 }} /> : null}
-      <span style={{ fontSize:11, fontWeight:600, color:"#94a3b8", textTransform:"uppercase", letterSpacing:".06em" }}>
+      <span style={{ fontSize:11, fontWeight:600, color:"#888", textTransform:"uppercase", letterSpacing:".06em" }}>
         {props.label}
       </span>
     </div>
@@ -203,7 +200,7 @@ function AddButton(props) {
   return (
     <button
       onClick={props.onClick}
-      style={{ width:"100%", padding:"8px", borderRadius:8, border:"1.5px dashed #e2e8f0", background:"transparent", color:"#94a3b8", fontSize:12, cursor:"pointer", marginTop:4, fontFamily:"inherit" }}
+      style={{ width:"100%", padding:"8px", borderRadius:8, border:"1.5px dashed #2a2a2a", background:"transparent", color:"#888", fontSize:12, cursor:"pointer", marginTop:4, fontFamily:"inherit" }}
     >
       {props.label}
     </button>
@@ -257,8 +254,8 @@ function resolveCourseName(val) {
 
 function FormBox(props) {
   return (
-    <div style={{ background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:12, padding:"1rem 1.25rem", marginTop:8, boxShadow:"0 1px 3px rgba(0,0,0,.06)" }}>
-      <div style={{ fontSize:14, fontWeight:600, marginBottom:12, color:"#1e293b" }}>{props.title}</div>
+    <div style={{ background:"#161616", border:"1px solid #2a2a2a", borderRadius:12, padding:"1rem 1.25rem", marginTop:8 }}>
+      <div style={{ fontSize:14, fontWeight:600, marginBottom:12, color:"#fff" }}>{props.title}</div>
       {props.children}
     </div>
   );
@@ -269,13 +266,13 @@ function FormActions(props) {
     <div style={{ display:"flex", gap:8, justifyContent:"flex-end", marginTop:4 }}>
       <button
         onClick={props.onCancel}
-        style={Object.assign({}, btnBase, { padding:"7px 16px", border:"1px solid #e2e8f0", background:"#fff", color:"#64748b" })}
+        style={Object.assign({}, btnBase, { padding:"7px 16px", border:"1px solid #2a2a2a", background:"#1f1f1f", color:"#aaa" })}
       >
         Peruuta
       </button>
       <button
         onClick={props.onSave}
-        style={Object.assign({}, btnBase, { padding:"7px 16px", border:"none", background:"#1a56db", color:"#fff", fontWeight:500 })}
+        style={Object.assign({}, btnBase, { padding:"7px 16px", border:"none", background:"#fff", color:"#000", fontWeight:500 })}
       >
         {props.saveLabel || "Tallenna"}
       </button>
@@ -322,7 +319,7 @@ function RecurringForm(props) {
         {DAYS.map(function(d, i) { return <option key={i} value={i}>{d}</option>; })}
       </select>
       <div style={{ display:"flex", gap:8, alignItems:"center", marginBottom:8 }}>
-        <span style={{ fontSize:13, color:"#64748b", whiteSpace:"nowrap" }}>Kellonaika:</span>
+        <span style={{ fontSize:13, color:"#aaa", whiteSpace:"nowrap" }}>Kellonaika:</span>
         <input
           style={Object.assign({}, inp, { marginBottom:0 })}
           type="time"
@@ -371,13 +368,13 @@ function ExamCard(props) {
   const color = courseColor(exam.course, props.allCourses);
   const [expanded, setExpanded] = useState(false);
   return (
-    <div style={{ background:"#f8fafc", borderRadius:10, marginBottom:6, border:"1px solid #e2e8f0", borderLeft:"3px solid " + (s === "past" ? "#e2e8f0" : color), opacity: s === "past" ? 0.6 : 1 }}>
+    <div style={{ background:"#1a1a1a", borderRadius:10, marginBottom:6, border:"1px solid #252525", borderLeft:"3px solid " + (s === "past" ? "#2a2a2a" : color), opacity: s === "past" ? 0.6 : 1 }}>
       <div style={{ display:"flex", alignItems:"center", gap:8, padding:"9px 12px" }}>
         <div style={{ flex:1, minWidth:0 }}>
-          <div style={{ fontSize:13, fontWeight:500, color:"#1e293b", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+          <div style={{ fontSize:13, fontWeight:500, color:"#fff", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
             {exam.name}
           </div>
-          <div style={{ fontSize:11, color:"#94a3b8", marginTop:1 }}>
+          <div style={{ fontSize:11, color:"#888", marginTop:1 }}>
             {fmtDate(exam.due)}{exam.place ? " · " + exam.place : ""}
           </div>
         </div>
@@ -385,7 +382,7 @@ function ExamCard(props) {
         {exam.notes
           ? <button
               onClick={function() { setExpanded(function(p) { return !p; }); }}
-              style={{ background:"none", border:"none", cursor:"pointer", padding:3, color:"#94a3b8", display:"flex", alignItems:"center" }}
+              style={{ background:"none", border:"none", cursor:"pointer", padding:3, color:"#888", display:"flex", alignItems:"center" }}
             >
               <ChevronIcon up={expanded} />
             </button>
@@ -395,7 +392,7 @@ function ExamCard(props) {
         <IconDel onClick={props.onDel} />
       </div>
       {expanded && exam.notes
-        ? <div style={{ padding:"0 12px 9px 12px", fontSize:12, color:"#475569", lineHeight:1.6, borderTop:"1px solid #f1f5f9", paddingTop:7, whiteSpace:"pre-wrap" }}>
+        ? <div style={{ padding:"0 12px 9px 12px", fontSize:12, color:"#bbb", lineHeight:1.6, borderTop:"1px solid #252525", paddingTop:7, whiteSpace:"pre-wrap" }}>
             {exam.notes}
           </div>
         : null
@@ -408,13 +405,13 @@ function MiniTaskRow(props) {
   const t = props.t;
   const s = getStatus(t.due, t.done);
   return (
-    <div style={{ display:"flex", alignItems:"center", gap:8, background:"#f8fafc", borderRadius:8, padding:"8px 10px", marginBottom:5, borderLeft:"3px solid " + (t.done ? "#e2e8f0" : props.color), opacity: t.done ? 0.55 : 1 }}>
+    <div style={{ display:"flex", alignItems:"center", gap:8, background:"#1a1a1a", borderRadius:8, padding:"8px 10px", marginBottom:5, border:"1px solid #252525", borderLeft:"3px solid " + (t.done ? "#2a2a2a" : props.color), opacity: t.done ? 0.55 : 1 }}>
       <input type="checkbox" checked={t.done} onChange={props.onToggle} style={{ width:14, height:14, flexShrink:0, cursor:"pointer", accentColor:props.color }} />
       <div style={{ flex:1, minWidth:0 }}>
-        <div style={{ fontSize:13, fontWeight:500, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", textDecoration: t.done ? "line-through" : "none", color:"#1e293b" }}>
+        <div style={{ fontSize:13, fontWeight:500, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", textDecoration: t.done ? "line-through" : "none", color:"#fff" }}>
           {t.name}
         </div>
-        {t.due ? <div style={{ fontSize:11, color:"#94a3b8", marginTop:1 }}>{"Palautus: " + fmt(t.due)}</div> : null}
+        {t.due ? <div style={{ fontSize:11, color:"#888", marginTop:1 }}>{"Palautus: " + fmt(t.due)}</div> : null}
       </div>
       <Badge s={s} />
       <IconEdit onClick={props.onEdit} />
@@ -427,14 +424,14 @@ function MiniRecurRow(props) {
   const r = props.r;
   const done = props.done;
   return (
-    <div style={{ display:"flex", alignItems:"center", gap:8, background:"#f8fafc", borderRadius:8, padding:"8px 10px", marginBottom:5, borderLeft:"3px solid " + (done ? "#e2e8f0" : props.color), opacity: done ? 0.55 : 1 }}>
+    <div style={{ display:"flex", alignItems:"center", gap:8, background:"#1a1a1a", borderRadius:8, padding:"8px 10px", marginBottom:5, border:"1px solid #252525", borderLeft:"3px solid " + (done ? "#2a2a2a" : props.color), opacity: done ? 0.55 : 1 }}>
       <input type="checkbox" checked={done} onChange={props.onToggle} style={{ width:14, height:14, flexShrink:0, cursor:"pointer", accentColor:props.color }} />
       <div style={{ flex:1, minWidth:0 }}>
         <div style={{ display:"flex", alignItems:"center", gap:5 }}>
           <RecurIcon />
-          <div style={{ fontSize:13, fontWeight:500, color:"#1e293b", textDecoration: done ? "line-through" : "none" }}>{r.name}</div>
+          <div style={{ fontSize:13, fontWeight:500, color:"#fff", textDecoration: done ? "line-through" : "none" }}>{r.name}</div>
         </div>
-        <div style={{ fontSize:11, color:"#94a3b8", marginTop:1 }}>{DAYS[r.dayIndex] + " klo " + r.time}</div>
+        <div style={{ fontSize:11, color:"#888", marginTop:1 }}>{DAYS[r.dayIndex] + " klo " + r.time}</div>
       </div>
       <IconEdit onClick={props.onEdit} />
       <IconDel onClick={props.onDel} />
@@ -476,25 +473,25 @@ function ExportImport(props) {
     e.target.value = "";
   }
   return (
-    <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,.4)", display:"flex", alignItems:"center", justifyContent:"center", zIndex:100 }}>
-      <div style={{ background:"#fff", borderRadius:16, padding:"1.5rem", width:"90%", maxWidth:380, boxShadow:"0 8px 32px rgba(0,0,0,.15)" }}>
+    <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,.65)", display:"flex", alignItems:"center", justifyContent:"center", zIndex:100 }}>
+      <div style={{ background:"#161616", border:"1px solid #2a2a2a", borderRadius:16, padding:"1.5rem", width:"90%", maxWidth:380, boxShadow:"0 8px 32px rgba(0,0,0,.5)" }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-          <div style={{ fontSize:16, fontWeight:600, color:"#1e293b" }}>Asetukset</div>
-          <button onClick={props.onClose} style={{ background:"none", border:"none", cursor:"pointer", color:"#94a3b8", fontSize:20, lineHeight:1 }}>×</button>
+          <div style={{ fontSize:16, fontWeight:600, color:"#fff" }}>Asetukset</div>
+          <button onClick={props.onClose} style={{ background:"none", border:"none", cursor:"pointer", color:"#888", fontSize:20, lineHeight:1 }}>×</button>
         </div>
-        <div style={{ fontSize:13, color:"#64748b", marginBottom:14, lineHeight:1.6 }}>
+        <div style={{ fontSize:13, color:"#aaa", marginBottom:14, lineHeight:1.6 }}>
           Vie tai tuo kaikki tehtäväsi JSON-tiedostona. Tuonti korvaa nykyiset tiedot.
         </div>
         <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
           <button
             onClick={doExport}
-            style={Object.assign({}, btnBase, { padding:"10px 16px", border:"none", background:"#1a56db", color:"#fff", fontWeight:500, fontSize:14, textAlign:"left", borderRadius:10 })}
+            style={Object.assign({}, btnBase, { padding:"10px 16px", border:"none", background:"#fff", color:"#000", fontWeight:500, fontSize:14, textAlign:"left", borderRadius:10 })}
           >
             Vie tehtävät (JSON)
           </button>
           <button
             onClick={function() { fileRef.current.click(); }}
-            style={Object.assign({}, btnBase, { padding:"10px 16px", border:"1px solid #e2e8f0", background:"#fff", color:"#374151", fontSize:14, textAlign:"left", borderRadius:10 })}
+            style={Object.assign({}, btnBase, { padding:"10px 16px", border:"1px solid #2a2a2a", background:"#1f1f1f", color:"#e5e5e5", fontSize:14, textAlign:"left", borderRadius:10 })}
           >
             Tuo tehtävät tiedostosta
           </button>
@@ -518,26 +515,26 @@ function CourseCard(props) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div style={{ background:"#fff", borderRadius:14, marginBottom:12, boxShadow:"0 1px 4px rgba(0,0,0,.07)", overflow:"hidden" }}>
+    <div style={{ background:"#161616", border:"1px solid #2a2a2a", borderRadius:14, marginBottom:12, overflow:"hidden" }}>
       <div
-        style={{ display:"flex", alignItems:"center", gap:8, padding:"12px 14px", borderBottom: open ? "1px solid #f1f5f9" : "none", cursor:"pointer" }}
+        style={{ display:"flex", alignItems:"center", gap:8, padding:"12px 14px", borderBottom: open ? "1px solid #252525" : "none", cursor:"pointer" }}
         onClick={function() { setOpen(function(p) { return !p; }); }}
       >
         <span style={{ width:11, height:11, borderRadius:"50%", background:color, flexShrink:0 }} />
-        <span style={{ flex:1, fontSize:15, fontWeight:600, color:"#1e293b" }}>{c}</span>
+        <span style={{ flex:1, fontSize:15, fontWeight:600, color:"#fff" }}>{c}</span>
         <div
           style={{ display:"flex", alignItems:"center", gap:6 }}
           onClick={function(e) { e.stopPropagation(); }}
         >
           <button
             onClick={function() { props.setAddExamOpen(props.addExamOpen === c ? null : c); setOpen(true); }}
-            style={Object.assign({}, btnBase, { padding:"4px 9px", border:"1px solid #c4b5fd", background:"#ede9fe", color:"#5b21b6", fontSize:11 })}
+            style={Object.assign({}, btnBase, { padding:"4px 9px", border:"1px solid #5b21b6", background:"#2a1f47", color:"#c4b5fd", fontSize:11 })}
           >
             + Tentti
           </button>
           <button
             onClick={function() { props.archiveCourse(c); }}
-            style={Object.assign({}, btnBase, { padding:"4px 9px", border:"1px solid #e2e8f0", background:"#f8fafc", color:"#94a3b8", fontSize:11 })}
+            style={Object.assign({}, btnBase, { padding:"4px 9px", border:"1px solid #2a2a2a", background:"#1f1f1f", color:"#888", fontSize:11 })}
           >
             Arkistoi
           </button>
@@ -546,20 +543,20 @@ function CourseCard(props) {
       </div>
 
       <div style={{ display:"flex" }}>
-        <div style={{ flex:1, padding:"9px 14px", borderRight:"1px solid #f1f5f9", borderBottom: open ? "1px solid #f1f5f9" : "none" }}>
-          <div style={{ fontSize:10, color:"#94a3b8", marginBottom:2, textTransform:"uppercase", letterSpacing:".04em" }}>
+        <div style={{ flex:1, padding:"9px 14px", borderRight:"1px solid #252525", borderBottom: open ? "1px solid #252525" : "none" }}>
+          <div style={{ fontSize:10, color:"#888", marginBottom:2, textTransform:"uppercase", letterSpacing:".04em" }}>
             Tehdyt tehtävät
           </div>
-          <div style={{ fontSize:17, fontWeight:700, color:"#1e293b" }}>
+          <div style={{ fontSize:17, fontWeight:700, color:"#fff" }}>
             {totalDone}
-            <span style={{ fontSize:12, fontWeight:400, color:"#94a3b8" }}>{"/" + totalAll}</span>
+            <span style={{ fontSize:12, fontWeight:400, color:"#888" }}>{"/" + totalAll}</span>
           </div>
         </div>
-        <div style={{ flex:1, padding:"9px 14px", borderBottom: open ? "1px solid #f1f5f9" : "none" }}>
-          <div style={{ fontSize:10, color:"#94a3b8", marginBottom:2, textTransform:"uppercase", letterSpacing:".04em" }}>
+        <div style={{ flex:1, padding:"9px 14px", borderBottom: open ? "1px solid #252525" : "none" }}>
+          <div style={{ fontSize:10, color:"#888", marginBottom:2, textTransform:"uppercase", letterSpacing:".04em" }}>
             Tentti
           </div>
-          <div style={{ fontSize:13, fontWeight:600, color: cExams.length > 0 ? "#5b21b6" : "#94a3b8" }}>
+          <div style={{ fontSize:13, fontWeight:600, color: cExams.length > 0 ? "#c4b5fd" : "#666" }}>
             {cExams.length > 0 ? "Kyllä" : "Ei"}
           </div>
         </div>
@@ -652,7 +649,7 @@ function CourseCard(props) {
           ) : null}
 
           {cTasks.length === 0 && cRec.length === 0 && cExams.length === 0 && props.addExamOpen !== c ? (
-            <div style={{ fontSize:12, color:"#cbd5e1", textAlign:"center", padding:"8px 0" }}>
+            <div style={{ fontSize:12, color:"#666", textAlign:"center", padding:"8px 0" }}>
               Ei tehtäviä tai tenttejä vielä.
             </div>
           ) : null}
@@ -672,7 +669,7 @@ function CoursesView(props) {
   return (
     <div>
       {!active.length
-        ? <div style={{ textAlign:"center", padding:"3rem 0", color:"#cbd5e1", fontSize:14 }}>Ei kursseja vielä.</div>
+        ? <div style={{ textAlign:"center", padding:"3rem 0", color:"#666", fontSize:14 }}>Ei kursseja vielä.</div>
         : null
       }
       {active.map(function(c) {
@@ -721,18 +718,18 @@ function CoursesView(props) {
         <div style={{ marginTop:8 }}>
           <button
             onClick={function() { setShowArchived(function(p) { return !p; }); }}
-            style={Object.assign({}, btnBase, { padding:"5px 12px", border:"1px solid #e2e8f0", background:"#f8fafc", color:"#64748b", fontSize:12, marginBottom:10 })}
+            style={Object.assign({}, btnBase, { padding:"5px 12px", border:"1px solid #2a2a2a", background:"#1f1f1f", color:"#aaa", fontSize:12, marginBottom:10 })}
           >
             {showArchived ? "Piilota arkistoidut" : "Näytä arkistoidut (" + archived.length + ")"}
           </button>
           {showArchived ? archived.map(function(c) {
             return (
-              <div key={c} style={{ display:"flex", alignItems:"center", gap:10, background:"#fff", borderRadius:12, padding:"11px 14px", marginBottom:7, opacity:0.5, boxShadow:"0 1px 4px rgba(0,0,0,.07)" }}>
-                <span style={{ width:10, height:10, borderRadius:"50%", background:"#cbd5e1", flexShrink:0 }} />
-                <span style={{ flex:1, fontSize:14, color:"#64748b" }}>{c}</span>
+              <div key={c} style={{ display:"flex", alignItems:"center", gap:10, background:"#161616", border:"1px solid #2a2a2a", borderRadius:12, padding:"11px 14px", marginBottom:7, opacity:0.6 }}>
+                <span style={{ width:10, height:10, borderRadius:"50%", background:"#444", flexShrink:0 }} />
+                <span style={{ flex:1, fontSize:14, color:"#aaa" }}>{c}</span>
                 <button
                   onClick={function() { props.unarchiveCourse(c); }}
-                  style={Object.assign({}, btnBase, { padding:"5px 12px", border:"1px solid #a4c0f4", background:"#e8f0fe", color:"#1a56db", fontSize:12 })}
+                  style={Object.assign({}, btnBase, { padding:"5px 12px", border:"1px solid #2a2a2a", background:"#1f1f1f", color:"#e5e5e5", fontSize:12 })}
                 >
                   Palauta
                 </button>
@@ -762,6 +759,37 @@ function App() {
   const [addRecOpen, setAddRecOpen] = useState(false);
   const [addExamOpen, setAddExamOpen] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
+
+  const touchRef = useRef({x:0, y:0, t:0});
+  const tabRef = useRef(tab);
+  useEffect(function() { tabRef.current = tab; }, [tab]);
+
+  useEffect(function() {
+    function onStart(e) {
+      const t = e.touches[0];
+      touchRef.current = { x:t.clientX, y:t.clientY, t:Date.now() };
+    }
+    function onEnd(e) {
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touchRef.current.x;
+      const dy = t.clientY - touchRef.current.y;
+      const dt = Date.now() - touchRef.current.t;
+      if (dt > 600) return;
+      if (Math.abs(dx) < 60) return;
+      if (Math.abs(dy) > Math.abs(dx) * 0.7) return;
+      const tag = (e.target.tagName || "").toLowerCase();
+      if (["input","textarea","select","button"].indexOf(tag) !== -1) return;
+      const idx = TABS.indexOf(tabRef.current);
+      if (dx < 0 && idx < TABS.length - 1) setTab(TABS[idx+1]);
+      else if (dx > 0 && idx > 0) setTab(TABS[idx-1]);
+    }
+    document.addEventListener("touchstart", onStart, { passive:true });
+    document.addEventListener("touchend", onEnd, { passive:true });
+    return function() {
+      document.removeEventListener("touchstart", onStart);
+      document.removeEventListener("touchend", onEnd);
+    };
+  }, []);
 
   useEffect(function() {
     try { setTasks(JSON.parse(localStorage.getItem(KEY_TASKS) || "[]")); } catch(e) {}
@@ -858,9 +886,10 @@ function App() {
 
   function tabStyle(active) {
     return {
-      padding:"8px 14px", borderRadius:999, border:"none",
-      background: active ? "#1e293b" : "#f1f5f9",
-      color: active ? "#fff" : "#64748b",
+      padding:"7px 14px", borderRadius:8,
+      border: "1px solid " + (active ? "transparent" : "#333"),
+      background: active ? "#fff" : "#1a1a1a",
+      color: active ? "#000" : "#fff",
       fontWeight: active ? 500 : 400,
       cursor:"pointer", fontSize:13, fontFamily:"inherit"
     };
@@ -872,7 +901,7 @@ function App() {
       return <TaskForm key={t.id} task={t} courses={allCourses} onSave={saveEdit} onCancel={function() { setEditId(null); }} />;
     }
     return (
-      <div key={t.id} style={{ display:"flex", alignItems:"center", gap:10, background:"#fff", borderRadius:12, padding:"11px 14px", marginBottom:7, opacity: t.done ? 0.5 : 1, boxShadow:"0 1px 4px rgba(0,0,0,.07)", borderLeft:"3.5px solid " + (t.done ? "#e2e8f0" : color) }}>
+      <div key={t.id} style={{ display:"flex", alignItems:"center", gap:10, background:"#161616", border:"1px solid #2a2a2a", borderRadius:12, padding:"11px 14px", marginBottom:7, opacity: t.done ? 0.5 : 1, borderLeft:"3.5px solid " + (t.done ? "#2a2a2a" : color) }}>
         <input
           type="checkbox"
           checked={t.done}
@@ -882,11 +911,11 @@ function App() {
         <div style={{ flex:1, minWidth:0 }}>
           <div style={{ display:"flex", alignItems:"center", gap:5 }}>
             {t.isRecurring ? <RecurIcon /> : null}
-            <div style={{ fontSize:14, fontWeight:500, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", textDecoration: t.done ? "line-through" : "none", color:"#1e293b" }}>
+            <div style={{ fontSize:14, fontWeight:500, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", textDecoration: t.done ? "line-through" : "none", color:"#fff" }}>
               {t.name}
             </div>
           </div>
-          {t.due ? <div style={{ fontSize:12, color:"#94a3b8", marginTop:2 }}>{"Palautus: " + fmt(t.due)}</div> : null}
+          {t.due ? <div style={{ fontSize:12, color:"#888", marginTop:2 }}>{"Palautus: " + fmt(t.due)}</div> : null}
         </div>
         <Badge s={getStatus(t.due, t.done)} />
         <IconEdit onClick={function() {
@@ -916,7 +945,7 @@ function App() {
         gmap[k].push(t);
       });
     }
-    if (!groups.length) return <div style={{ textAlign:"center", padding:"3rem 0", color:"#cbd5e1", fontSize:14 }}>Ei tehtäviä.</div>;
+    if (!groups.length) return <div style={{ textAlign:"center", padding:"3rem 0", color:"#666", fontSize:14 }}>Ei tehtäviä.</div>;
     return groups.map(function(g) {
       return (
         <div key={g} style={{ marginBottom:"1.25rem" }}>
@@ -970,7 +999,7 @@ function App() {
           <Pill label={"Kesken (" + nActive + ")"} active={filter === "active"} onClick={function() { setFilter("active"); }} />
           <Pill label={"Valmiit (" + nDone + ")"} active={filter === "done"} onClick={function() { setFilter("done"); }} />
           {nLate > 0
-            ? <span style={{ padding:"5px 13px", borderRadius:999, background:"#fee2e2", color:"#b91c1c", fontSize:13, fontWeight:500 }}>
+            ? <span style={{ padding:"5px 13px", borderRadius:999, background:"#3b1414", color:"#fca5a5", border:"1px solid #7f1d1d", fontSize:13, fontWeight:500 }}>
                 {nLate + " myöhässä"}
               </span>
             : null
@@ -1006,7 +1035,7 @@ function App() {
           <Pill label={"Valmiit (" + nDone + ")"} active={recFilter === "done"} onClick={function() { setRecFilter("done"); }} />
         </div>
         {!courseOrder.length
-          ? <div style={{ textAlign:"center", padding:"3rem 0", color:"#cbd5e1", fontSize:14 }}>Ei toistuvia tehtäviä.</div>
+          ? <div style={{ textAlign:"center", padding:"3rem 0", color:"#666", fontSize:14 }}>Ei toistuvia tehtäviä.</div>
           : null
         }
         {courseOrder.map(function(c) {
@@ -1018,11 +1047,11 @@ function App() {
                   return <RecurringForm key={r.id} initial={r} courses={allCourses} onSave={saveEditRec} onCancel={function() { setEditRecId(null); }} />;
                 }
                 return (
-                  <div key={r.id} style={{ display:"flex", alignItems:"center", gap:10, background:"#fff", borderRadius:12, padding:"11px 14px", marginBottom:7, opacity: recDone[r.id] ? 0.55 : 1, boxShadow:"0 1px 4px rgba(0,0,0,.07)", borderLeft:"3.5px solid " + (recDone[r.id] ? "#e2e8f0" : courseColor(c, allCourses)) }}>
+                  <div key={r.id} style={{ display:"flex", alignItems:"center", gap:10, background:"#161616", border:"1px solid #2a2a2a", borderRadius:12, padding:"11px 14px", marginBottom:7, opacity: recDone[r.id] ? 0.55 : 1, borderLeft:"3.5px solid " + (recDone[r.id] ? "#2a2a2a" : courseColor(c, allCourses)) }}>
                     <input type="checkbox" checked={!!recDone[r.id]} onChange={function() { toggleRec(r.id); }} style={{ width:16, height:16, flexShrink:0, cursor:"pointer", accentColor:courseColor(c,allCourses) }} />
                     <div style={{ flex:1, minWidth:0 }}>
-                      <div style={{ fontSize:14, fontWeight:500, color:"#1e293b", textDecoration: recDone[r.id] ? "line-through" : "none" }}>{r.name}</div>
-                      <div style={{ fontSize:12, color:"#94a3b8", marginTop:2 }}>{DAYS[r.dayIndex] + " klo " + r.time}</div>
+                      <div style={{ fontSize:14, fontWeight:500, color:"#fff", textDecoration: recDone[r.id] ? "line-through" : "none" }}>{r.name}</div>
+                      <div style={{ fontSize:12, color:"#888", marginTop:2 }}>{DAYS[r.dayIndex] + " klo " + r.time}</div>
                     </div>
                     <IconEdit onClick={function() { setEditRecId(r.id); setAddRecOpen(false); }} />
                     <IconDel onClick={function() { delRecurring(r.id); }} />
@@ -1041,26 +1070,26 @@ function App() {
   }
 
   return (
-    <div style={{ padding:"1.25rem 1rem", maxWidth:680, margin:"0 auto", fontFamily:"system-ui,sans-serif", background:"#f8fafc", minHeight:"100vh" }}>
+    <div style={{ padding:"1.25rem 1rem", maxWidth:680, margin:"0 auto", fontFamily:"system-ui,sans-serif", background:"#0a0a0a", color:"#fff", minHeight:"100vh" }}>
       <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:"1.25rem" }}>
         <Logo />
-        <h2 style={{ fontSize:20, fontWeight:700, color:"#1e293b", margin:0, flex:1 }}>Koulu</h2>
+        <h2 style={{ fontSize:20, fontWeight:700, color:"#fff", margin:0, flex:1 }}>Koulu</h2>
         <button
           onClick={function() { setShowSettings(true); }}
-          style={{ background:"none", border:"none", cursor:"pointer", color:"#94a3b8", padding:4, display:"flex", alignItems:"center" }}
+          style={{ width:34, height:34, borderRadius:8, border:"1px solid #333", background:"#1a1a1a", color:"#fff", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3"/>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
           </svg>
         </button>
       </div>
 
-      <div style={{ display:"flex", gap:8, marginBottom:"1.5rem", flexWrap:"wrap" }}>
+      <div style={{ display:"flex", gap:6, marginBottom:"1.5rem", flexWrap:"wrap" }}>
         <button style={tabStyle(tab === "courses")} onClick={function() { setTab("courses"); }}>Kurssit</button>
-        <button style={tabStyle(tab === "all")} onClick={function() { setTab("all"); }}>Kaikki tehtävät</button>
+        <button style={tabStyle(tab === "all")} onClick={function() { setTab("all"); }}>Kaikki</button>
         <button style={tabStyle(tab === "recurring")} onClick={function() { setTab("recurring"); }}>Toistuvat</button>
-        <button style={tabStyle(tab === "other")} onClick={function() { setTab("other"); }}>Muut tehtävät</button>
+        <button style={tabStyle(tab === "other")} onClick={function() { setTab("other"); }}>Muut</button>
       </div>
 
       {tab === "courses" ? (
